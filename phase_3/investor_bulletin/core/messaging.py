@@ -15,8 +15,9 @@ def record_event(message: AlertCreate):
     from resources.alerts.alert_service import create_new_alert_service
     from db.database import get_session
 
-    with get_session() as session:
-        return create_new_alert_service(message, session)
+    session = next(get_session())
+    create_new_alert_service(message, session)
+    session.close()
 
 def publish_message(broker, message: AlertCreate):
     channel = broker.channel()
@@ -32,7 +33,7 @@ def publish_message(broker, message: AlertCreate):
     record_event(message)
 
 if __name__ == "__main__":
-    
+
     broker = init_broker()
     message = AlertCreate(name="Published Alert", threshold_price=99.13, symbol="AMQP")
 

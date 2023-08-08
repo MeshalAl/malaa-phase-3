@@ -22,7 +22,7 @@ def get_market_data():
         querystring = {"symbol": symbol,"format":"json","outputsize":"30"}
 
         response = requests.get(url, headers=headers, params=querystring)
-        assert response.status_code == 200,  f"Request failed with status code {response.status_code}"
+        assert response.status_code == 200,  f"Request failed with status code {response.status_code}: {response.text}"
 
         try:
             request = MarketRequest(symbol=symbol)
