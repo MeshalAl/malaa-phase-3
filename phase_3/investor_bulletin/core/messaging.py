@@ -2,8 +2,6 @@ import sys, os
 current_dir = os.path.dirname(os.path.abspath(__file__))
 root_dir = os.path.dirname(current_dir)
 sys.path.append(root_dir)
-
-import json
 from amqpstorm import Connection, Message
 from resources.alerts.alert_schema import AlertCreate
 # Create a connection object to publish events
