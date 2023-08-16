@@ -3,9 +3,7 @@ from worker.app import app
 from core.messaging import init_broker, publish_message
 from os import environ
 from resources.alerts.alert_schema import AlertCreate
-import logging
-'''**Create a celery task that use the market_service.py to fetch the market data and use the rules_service.py to get all the users rules**
-'''
+
 
 api = environ.get('API_URL')
 
@@ -39,5 +37,4 @@ def publish_alerts_task():
 
 @app.task
 def ping():
-    logger = logging.getLogger(__name__)
-    logger.info('pong')
+    return 'pong'
