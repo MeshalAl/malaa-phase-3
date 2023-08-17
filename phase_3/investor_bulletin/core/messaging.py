@@ -1,4 +1,8 @@
+from json import load
 import sys, os
+from urllib import response
+
+from httpx import get
 current_dir = os.path.dirname(os.path.abspath(__file__))
 root_dir = os.path.dirname(current_dir)
 sys.path.append(root_dir)
@@ -12,10 +16,15 @@ def init_broker():
 def record_event(message: AlertCreate):
     from resources.alerts.alert_service import create_new_alert_service
     from db.database import get_session
-
-    session = next(get_session())
-    create_new_alert_service(message, session)
-    session.close()
+    session_gen = get_session()
+    session = next(session_gen)
+    try:
+        create_new_alert_service(alert=message, session=session)
+        print('Event recorded', message.model_dump_json(), sep='\n')
+    except Exception as e:
+        raise e
+    finally:
+        next(session_gen, None)
 
 def publish_message(broker, message: AlertCreate):
     channel = broker.channel()
@@ -34,5 +43,4 @@ if __name__ == "__main__":
 
     broker = init_broker()
     message = AlertCreate(name="Published Alert", threshold_price=99.13, symbol="AMQP")
-
     publish_message(broker, message)
