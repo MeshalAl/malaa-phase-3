@@ -24,16 +24,28 @@ def fetch_alert_rules():
     return None
 
 @app.task
+def find_matching_rules(market_data, alert_rules):
+    return [
+        {"name": rule["name"], "threshold_price": price["price"], "symbol": price["symbol"]}
+        for rule in alert_rules
+        for price in market_data
+        if price["price"] < rule["threshold_price"] and price["symbol"] == rule["symbol"]
+    ]
+
+@app.task
 def publish_alerts_task():
     print('running: publish_alerts_task')
 
-    market_data = fetch_market_data.delay()
-    alert_rules = fetch_alert_rules.delay()
+    market_data = fetch_market_data.run().get()
+    alert_rules = fetch_alert_rules.run().get()
 
     print(market_data, alert_rules)
 
     broker = init_broker()
-    publish_message(broker, AlertCreate(name="Published Alert", threshold_price=100.01, symbol="CELERY"))
+
+    for match in find_matching_rules.run(market_data, alert_rules).get():
+        publish_message(broker, AlertCreate(**match))
+    publish_message(broker, AlertCreate(name="Published Alert", threshold_price=100.01, symbol="CELERY-LAST"))
 
 @app.task
 def ping():
