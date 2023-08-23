@@ -2,6 +2,7 @@ import requests
 from app import app
 from os import environ
 from malaa_schema.alert_schema import AlertCreate
+from malaa_schema.alert_rule_schema import AlertRuleCreate
 from _config.logger_config import logger
 
 api = environ.get('BACKEND_URL')
@@ -20,12 +21,12 @@ def fetch_alert_rules():
         return alert_rules
     return []
 
-def find_matching_rules(market_data, alert_rules):
+def find_matching_rules(market_data, alert_rules: list[AlertRuleCreate]):
     matches = []
 
     for rule in alert_rules:
         for price in market_data:
-            if price["price"] < rule["threshold_price"] and price["symbol"] == rule["symbol"]:
+            if int(price["price"]) < int(rule["threshold_price"]) and price["symbol"] == rule["symbol"]:
                 match = {
                     "name": rule["name"],
                     "threshold_price": price["price"],
