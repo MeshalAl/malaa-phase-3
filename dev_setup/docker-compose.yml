@@ -51,7 +51,7 @@ services:
     depends_on:
       - database
     environment:
-      - RAPID_API_KEY=a48a0ab038msh167a6aef98ad246p12c73ajsn1ff78e5b784a
+      - RAPID_API_KEY=
       - RAPID_API_HOST=twelve-data1.p.rapidapi.com
       - DATABASE_URL=cockroachdb://root@database:26257/defaultdb?sslmode=disable
       - RABBITMQ_URL=amqp://guest:guest@broker:5672/
@@ -113,8 +113,8 @@ services:
       - BACKEND_URL=http://backend:8000
       - MARKET_PRICES=market-prices
       - ALERTS_ROUTE=alerts
-      - ALERT_RULES_ROUTE= alert-rules
-      - MESSAGING_ROUTE=messaging=value
+      - ALERT_RULES_ROUTE=alert-rules
+      - MESSAGING_ROUTE=messaging
 
     networks:
       - internal_nw
