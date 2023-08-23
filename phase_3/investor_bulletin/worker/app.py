@@ -1,13 +1,11 @@
 from celery import Celery
-from worker._config import celeryconfig
-from worker.schedule.celery_schedule import beat_schedule
+from _config import celery_config
 # Create a celery app object to start your workers
 
 def create_celery_app():
-  app = Celery('asd')
-  app.config_from_object(celeryconfig)
-  app.conf.beat_schedule = beat_schedule
-  app.log.setup_logging_subsystem(loglevel='INFO')
+  app = Celery('celery_app')
+  app.config_from_object(celery_config)
+  # app.log.setup_logging_subsystem(loglevel='INFO')
   return app
 
 app = create_celery_app()
