@@ -8,14 +8,15 @@ from _config.logger_config import logger
 api = environ.get('BACKEND_URL')
 
 def fetch_market_data():
-    url = f"{api}/{environ.get('MARKET_PRICES')}"
-    market_data = requests.get(url).json().get("price_list")
+    url = f"{api}/{environ.get('MARKET_PRICES')}/"
+    response = requests.get(url)
+    market_data = response.json().get("price_list")
     if market_data:
         return market_data
     return []
 
 def fetch_alert_rules():
-    url = f"{api}/{environ.get('ALERTS_ROUTE')}/{environ.get('ALERT_RULES_ROUTE')}"
+    url = f"{api}/{environ.get('ALERTS_ROUTE')}/{environ.get('ALERT_RULES_ROUTE')}/"
     alert_rules = requests.get(url).json()
     if alert_rules:
         return alert_rules
