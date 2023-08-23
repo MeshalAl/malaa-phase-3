@@ -22,4 +22,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 ENTRYPOINT ["entrypoint.sh", "broker"]
 
-CMD ["celery", "-A", "app", "worker"]
+CMD ["celery", "-A", "app", "worker", "-l", "warning"]
