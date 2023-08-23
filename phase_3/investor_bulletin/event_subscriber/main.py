@@ -1,12 +1,10 @@
 from pika import BlockingConnection, ConnectionParameters
 from os import environ
-from dotenv import load_dotenv
 from _config.logger_config import logger
 
 # Create a connection object to start consuming events
 
 def init_subscriber():
-  load_dotenv()
   broker = environ.get("BROKER")
   broker_port = environ.get("BROKER_PORT")
 

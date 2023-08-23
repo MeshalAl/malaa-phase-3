@@ -3,11 +3,10 @@ import requests
 from malaa_schema.alert_schema import AlertCreate
 from tenacity import retry, stop_after_attempt, wait_fixed
 from os import environ
-from dotenv import load_dotenv
+
 from _config.logger_config import logger
 
 def init_broker():
-    load_dotenv()
     hostname = environ.get("RABBITMQ_HOST")
     username = environ.get("RABBITMQ_USER")
     password = environ.get("RABBITMQ_PASSWORD")

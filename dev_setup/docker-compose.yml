@@ -50,6 +50,13 @@ services:
     restart: always
     depends_on:
       - database
+    environment:
+      - RAPID_API_KEY=a48a0ab038msh167a6aef98ad246p12c73ajsn1ff78e5b784a
+      - RAPID_API_HOST=twelve-data1.p.rapidapi.com
+      - DATABASE_URL=cockroachdb://root@database:26257/defaultdb?sslmode=disable
+      - RABBITMQ_URL=amqp://guest:guest@broker:5672/
+      - MESSAGING_URL=http://messaging:8001
+      - MESSAGING_ROUTE=messaging
     networks:
       - internal_nw
 
@@ -65,6 +72,14 @@ services:
       - database
       - broker
       - backend
+    environment:
+      - RABBITMQ_HOST=broker
+      - RABBITMQ_USER=guest
+      - RABBITMQ_PASSWORD=guest
+      - RABBITMQ_PORT=5672
+      - BACKEND_URL=http://backend:8000
+      - ALERTS_ROUTE=alerts
+      - ALERT_RULES_ROUTE=alert-rules
     networks:
       - internal_nw
 
@@ -77,6 +92,9 @@ services:
     depends_on:
       - broker
       - messaging
+    environment:
+      - BROKER=broker
+      - BROKER_PORT=5672
     networks:
       - internal_nw
 
@@ -89,6 +107,15 @@ services:
     depends_on:
       - broker
       - messaging
+    environment:
+      - BROKER_URL=amqp://guest:guest@broker:5672/
+      - RESULTS_URL=rpc://broker
+      - BACKEND_URL=http://backend:8000
+      - MARKET_PRICES=market-prices
+      - ALERTS_ROUTE=alerts
+      - ALERT_RULES_ROUTE= alert-rules
+      - MESSAGING_ROUTE=messaging=value
+
     networks:
       - internal_nw
 
@@ -101,5 +128,7 @@ services:
     depends_on:
       - broker
       - messaging
+    environment:
+      - BROKER_URL=amqp://guest:guest@broker:5672/
     networks:
       - internal_nw
