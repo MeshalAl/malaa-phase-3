@@ -5,7 +5,6 @@ from _config import celery_config
 def create_celery_app():
   app = Celery('celery_app')
   app.config_from_object(celery_config)
-  # app.log.setup_logging_subsystem(loglevel='INFO')
   return app
 
 app = create_celery_app()
