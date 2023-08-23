@@ -21,7 +21,6 @@ services:
   broker:
     image: rabbitmq:3.8-management
     container_name: rabbitmq-node
-    hostname: broker
     ports:
       - 0.0.0.0:5672:5672
       - 0.0.0.0:15672:15672
@@ -37,5 +36,70 @@ services:
       - RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS=-rabbit loopback_users "none"
     command: >
       sh -c "rabbitmq-server"
+    networks:
+      - internal_nw
+
+  backend:
+    build:
+      context: ../phase_3/investor_bulletin
+      dockerfile: backend/Dockerfile
+    container_name: backend-node
+    hostname: backend
+    ports:
+      - "8000:8000"
+    restart: always
+    depends_on:
+      - database
+    networks:
+      - internal_nw
+
+  messaging:
+    build:
+      context: ../phase_3/investor_bulletin
+      dockerfile: core/Dockerfile
+    container_name: messaging-node
+    ports:
+      - "8001:8001"
+    restart: always
+    depends_on:
+      - database
+      - broker
+      - backend
+    networks:
+      - internal_nw
+
+  subscription:
+    build:
+      context: ../phase_3/investor_bulletin
+      dockerfile: event_subscriber/Dockerfile
+    container_name: subscription-node
+    restart: always
+    depends_on:
+      - broker
+      - messaging
+    networks:
+      - internal_nw
+
+  worker:
+    build:
+      context: ../phase_3/investor_bulletin
+      dockerfile: worker/Dockerfile
+    container_name: worker-node
+    restart: always
+    depends_on:
+      - broker
+      - messaging
+    networks:
+      - internal_nw
+
+  scheduler:
+    build:
+      context: ../phase_3/investor_bulletin
+      dockerfile: worker/beat-scheduler/Dockerfile
+    container_name: beat-node
+    restart: always
+    depends_on:
+      - broker
+      - messaging
     networks:
       - internal_nw
