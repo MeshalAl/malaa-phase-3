@@ -15,10 +15,10 @@ Phase 3 of Malaa's technical assesment project.
 
 Clone the repository to your local machine to get started with the project.
 
-\`\`\`bash
-git clone https://github.com/MeshalAl/malaa-phase-3.git
-\`\`\`
 
+```bash
+git clone https://github.com/MeshalAl/malaa-phase-3.git
+```
 ## Prerequisites
 
 - Python 3.11.4 or higher
@@ -43,15 +43,15 @@ git clone https://github.com/MeshalAl/malaa-phase-3.git
 1. Navigate to the project directory.
 2. Build the Docker containers:
 
-   \`\`\`bash
-   docker-compose -f dev_setup/docker-compose.yml build
-   \`\`\`
+```bash
+docker-compose -f dev_setup/docker-compose.yml build
+```
 
 3. Start the containers:
 
-   \`\`\`bash
-   docker-compose -f dev_setup/docker-compose.yml up
-   \`\`\`
+```bash
+docker-compose -f dev_setup/docker-compose.yml up
+```
 
 ## Configuration
 
@@ -62,10 +62,10 @@ To access market data, you need to add your RapidAPI-Key. Follow these steps:
 1. Open the \`docker-compose.yml\` file under the \`dev_setup\` directory.
 2. Locate the environment section and add your RapidAPI-Key:
 
-   \`\`\`yaml
+```yaml
    environment:
      - RAPID_API_KEY=your-rapidapi-key-here
-   \`\`\`
+```
 
 3. Save the file and restart the Docker containers.
 
