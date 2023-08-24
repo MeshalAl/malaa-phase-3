@@ -1,48 +1,76 @@
+# Malaa Phase 3 Project
 
-# Investor Bulletin Project
+Phase 3 of Malaa's technical assesment project.
 
-![Welcome](./imgs/hello-welcome.gif)
+## Table of Contents
 
-> 🚨 This project doesn’t cover all tech/tools in Malaa stack and is only meant to give the initial boost and confidence to start working on Malaa’s codebase
->
-## Objectives
+- [Getting Started](#getting-started)
+- [Prerequisites](#prerequisites)
+- [Major Frameworks and Libraries](#major-frameworks-and-libraries)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [In Progress](#in-progress)
 
-You will create a simple API using FastAPI (python web framework), events published & consumed through RabbitMQ, and background tasks managed by Celery to sync stock market data and provide threshold alerting based on user interests.
+## Getting Started
 
-## Project Context
+Clone the repository to your local machine to get started with the project.
 
-Stock investments provide one of the highest returns in the market. Even though they are volatile in nature, one can visualize share prices and other statistical factors, which helps keen investors carefully decide on which company they want to spend their earnings on.
+\`\`\`bash
+git clone https://github.com/MeshalAl/malaa-phase-3.git
+\`\`\`
 
-This project will allow users to retrieve the latest stock market prices and create alert rules by setting a threshold price for the stock they are interested in and receiving alerts if stocks cross those thresholds.
+## Prerequisites
 
-## High-Level Approach
+- Python 3.11.4 or higher
+- Docker
+- RapidAPI Account (for market data)
 
-![high-level](imgs/high-level.png)
+## Major Frameworks and Libraries
 
-## Project phases
+- **FastAPI**: A modern, fast web framework for building APIs with Python.
+- **Uvicorn**: An ASGI server that serves as the interface between FastAPI and the outside world.
+- **SQLAlchemy**: A SQL toolkit and Object-Relational Mapping (ORM) library for Python.
+- **Requests**: A popular library for making HTTP requests in Python.
+- **Celery**: A distributed task queue that allows for processing tasks asynchronously.
+- **Celery Beat**: A scheduler for Celery, allowing for periodic task execution.
+- **AMQPStorm**: A library for interacting with AMQP brokers, such as RabbitMQ.
+- **Pika**: A pure-Python library for interacting with RabbitMQ.
+- **Tenacity**: A library for retrying failed operations.
+- **Other Dependencies**: Additional libraries and tools may be used, and their details can be found in the \`requirements.txt\` file.
 
-- [Phase One - Getting to know FastAPI](./phase_1/README.md)
-- [Phase Two - Creating Publisher and Subscriber](./phase_2/README.md)
-- [Phase Three - Background tasks](./phase_3/README.md)
+## Installation
 
-## Using Docker Setup
+1. Navigate to the project directory.
+2. Build the Docker containers:
 
-You can make your own setup / but to speed you up, you can use the provided setup. Just ensure you have the docker installed and the docker-compose, then run `make up` to start the containers.
+   \`\`\`bash
+   docker-compose -f dev_setup/docker-compose.yml build
+   \`\`\`
 
-## Deliverables
+3. Start the containers:
 
-The solution should be submitted by phase as a GitHub repository with the following:
+   \`\`\`bash
+   docker-compose -f dev_setup/docker-compose.yml up
+   \`\`\`
 
-- Source code with clear comments and documentation.
-- Instructions on how to run the code.
-- A brief explanation of the solution and any trade-offs made.
-## Evaluation
+## Configuration
 
-The solution will be evaluated based on the following criteria:
+### RapidAPI-Key Configuration
 
-- Correctness and completeness of the solution.
-- Code quality and engineering practices.
-- Documentation and comments.
-- Ease of setup and configuration.
-- Solution architecture and design decisions.
-- Adherence to the requirements.
+To access market data, you need to add your RapidAPI-Key. Follow these steps:
+
+1. Open the \`docker-compose.yml\` file under the \`dev_setup\` directory.
+2. Locate the environment section and add your RapidAPI-Key:
+
+   \`\`\`yaml
+   environment:
+     - RAPID_API_KEY=your-rapidapi-key-here
+   \`\`\`
+
+3. Save the file and restart the Docker containers.
+
+## In Progress
+
+- **Running Tests**: The testing framework and test cases are currently being developed and will be available in future updates.
+
+---
